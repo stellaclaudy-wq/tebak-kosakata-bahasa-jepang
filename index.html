@@ -36,14 +36,14 @@
 
 <h1>🎌 Tebak Kata Jepang – Level Menengah 🎌</h1>
 <p>Pilih mode permainan:</p>
-<button onclick="startGame('id-jp')">🇮🇩 ➜ 🇯🇵</button>
-<button onclick="startGame('jp-id')">🇯🇵 ➜ 🇮🇩</button>
+<button class="modeBtn" onclick="startGame('id-jp')">🇮🇩 ➜ 🇯🇵</button>
+<button class="modeBtn" onclick="startGame('jp-id')">🇯🇵 ➜ 🇮🇩</button>
 
 <div id="game">
   <div id="timer">⏱️ Waktu: 25</div>
   <div id="question"></div>
   <input type="text" id="answer" placeholder="Tulis jawaban di sini">
-  <div style="text-align:center;"><button onclick="submitAnswer()">Kirim</button></div>
+  <div style="text-align:center;"><button id="submitBtn" onclick="submitAnswer()">Kirim</button></div>
   <p id="feedback"></p>
 </div>
 
@@ -55,10 +55,10 @@
 </div>
 
 <!-- Efek Suara -->
-<audio id="correctSound" src="https://files.catbox.moe/1x2m4g.mp3"></audio>
-<audio id="wrongSound" src="https://files.catbox.moe/9y6ycv.mp3"></audio>
-<audio id="timeoutSound" src="https://files.catbox.moe/vb6zri.mp3"></audio>
-<audio id="countdownSound" src="https://files.catbox.moe/jd3v0h.mp3"></audio>
+<audio id="correctSound" src="https://files.catbox.moe/1x2m4g.mp3" preload="auto"></audio>
+<audio id="wrongSound" src="https://files.catbox.moe/9y6ycv.mp3" preload="auto"></audio>
+<audio id="timeoutSound" src="https://files.catbox.moe/vb6zri.mp3" preload="auto"></audio>
+<audio id="countdownSound" src="https://files.catbox.moe/jd3v0h.mp3" preload="auto"></audio>
 
 <script>
 const questions_id_jp = [
@@ -95,7 +95,7 @@ let timeLeft = 25;
 let userAnswers = [];
 
 function startGame(mode) {
-  document.querySelectorAll("button").forEach(btn=>btn.style.display="none");
+  document.querySelectorAll(".modeBtn").forEach(btn=>btn.style.display="none"); // sembunyikan tombol mode saja
   document.getElementById("game").style.display="block";
   currentQuestions = mode==='id-jp'?questions_id_jp:questions_jp_id;
   currentIndex=0; score=0; userAnswers=[];
@@ -118,10 +118,10 @@ function resetTimer() {
   timer=setInterval(()=>{
     timeLeft--;
     document.getElementById("timer").textContent=`⏱️ Waktu: ${timeLeft}`;
-    if(timeLeft<=5 && timeLeft>0){ document.getElementById("countdownSound").play(); }
+    if(timeLeft<=5 && timeLeft>0){ document.getElementById("countdownSound").play().catch(e=>{}); }
     if(timeLeft<=0){
       clearInterval(timer);
-      document.getElementById("timeoutSound").play();
+      document.getElementById("timeoutSound").play().catch(e=>{});
       const correct = currentQuestions[currentIndex].a[0];
       userAnswers.push({ q: currentQuestions[currentIndex].q, correct: correct, your:"Tidak dijawab" });
       currentIndex++;
@@ -138,11 +138,11 @@ function submitAnswer() {
   if(correctAnswers.includes(userAns)){
     score+=5;
     feedback="Benar! 🎉";
-    document.getElementById("correctSound").play();
+    document.getElementById("correctSound").play().catch(e=>{});
     userAnswers.push({ q: currentQuestions[currentIndex].q, correct: currentQuestions[currentIndex].a[0], your:userAns });
   } else{
     feedback="Salah 😢";
-    document.getElementById("wrongSound").play();
+    document.getElementById("wrongSound").play().catch(e=>{});
     userAnswers.push({ q: currentQuestions[currentIndex].q, correct: currentQuestions[currentIndex].a[0], your:userAns||"Tidak dijawab" });
   }
   document.getElementById("feedback").textContent=feedback;

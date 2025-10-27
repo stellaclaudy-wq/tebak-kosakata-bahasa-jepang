@@ -3,15 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tebak Kosakata Dalam Bahasa Jepang – Level Menengah</title>
+<title>Tebak Kata Jepang – Level Menengah 🎌</title>
 <style>
   body { font-family: 'Poppins', sans-serif; background: #fff0f5; text-align: center; color: #333; margin:0; padding:20px;}
   h1 { color:#e91e63; margin-bottom:5px; }
-  button { padding:10px 20px; margin:10px; border:none; border-radius:10px; cursor:pointer; background:#f06292; color:white; font-size:1em;}
-  button:hover{background:#ec407a;}
+  button {
+    padding: 12px 25px;
+    margin: 15px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #ff4081;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: 0.2s;
+  }
+  button:hover{ background: #e91e63; transform: scale(1.05); }
   #game,#result{display:none;}
   #timer{font-size:1.5em; color:#00796b; margin:10px 0;}
-  input{padding:8px; width:60%; font-size:1em; border-radius:5px; border:1px solid #ccc;}
+  input{
+    padding:10px; width:80%; font-size:1em; border-radius:5px; border:1px solid #ccc;
+  }
   #question{font-size:1.2em; margin:15px 0;}
   #answersList{text-align:left; display:inline-block; margin-top:20px;}
   table{border-collapse:collapse; margin:auto;}
@@ -29,7 +43,7 @@
   <div id="timer">⏱️ Waktu: 25</div>
   <div id="question"></div>
   <input type="text" id="answer" placeholder="Tulis jawaban di sini">
-  <div><button onclick="submitAnswer()">Kirim</button></div>
+  <div style="text-align:center;"><button onclick="submitAnswer()">Kirim</button></div>
   <p id="feedback"></p>
 </div>
 
@@ -64,7 +78,7 @@ const questions_jp_id = [
   { q: "じゅぎょうの **まえに**, しゅくだいをしてください。", a: ["sebelum","sebelumnya"] },
   { q: "しょくじの **あとで**, さんぽにいきます。", a: ["sesudah","nanti"] },
   { q: "えいがをみた **そのあと**, かふぇにいった。", a: ["setelah itu"] },
-  { q: "**さいしょに**, じこしょうかいをしましょう。", a: ["pertama-tama","pertama"] },
+  { q: "**さいしょに**, じこしょうかいをしましょう。", a: ["pertama-tama"] },
   { q: "**さいごに**, かんそうをいってください。", a: ["terakhir","pada akhirnya"] },
   { q: "**たいてい** あさ7じにおきます。", a: ["biasanya"] },
   { q: "**けっきょく**, かれはこなかった。", a: ["akhirnya","pada akhirnya"] },
@@ -123,11 +137,11 @@ function submitAnswer() {
   let feedback="";
   if(correctAnswers.includes(userAns)){
     score+=5;
-    feedback="まる〇 🎉";
+    feedback="Benar! 🎉";
     document.getElementById("correctSound").play();
     userAnswers.push({ q: currentQuestions[currentIndex].q, correct: currentQuestions[currentIndex].a[0], your:userAns });
   } else{
-    feedback="ばつ✖ 😢";
+    feedback="Salah 😢";
     document.getElementById("wrongSound").play();
     userAnswers.push({ q: currentQuestions[currentIndex].q, correct: currentQuestions[currentIndex].a[0], your:userAns||"Tidak dijawab" });
   }

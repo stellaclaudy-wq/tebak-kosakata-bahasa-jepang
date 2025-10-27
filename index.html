@@ -7,7 +7,7 @@
 <style>
   body { font-family: 'Poppins', sans-serif; background: #fff0f5; text-align: center; color: #333; margin:0; padding:20px;}
   h1 { color:#e91e63; margin-bottom:5px; }
-  button {
+  .modeBtn, #submitBtn {
     padding: 12px 25px;
     margin: 15px;
     border: none;
@@ -20,7 +20,7 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     transition: 0.2s;
   }
-  button:hover{ background: #e91e63; transform: scale(1.05); }
+  .modeBtn:hover, #submitBtn:hover { background: #e91e63; transform: scale(1.05); }
   #game,#result{display:none;}
   #timer{font-size:1.5em; color:#00796b; margin:10px 0;}
   input{
@@ -43,7 +43,9 @@
   <div id="timer">⏱️ Waktu: 25</div>
   <div id="question"></div>
   <input type="text" id="answer" placeholder="Tulis jawaban di sini">
-  <div style="text-align:center;"><button id="submitBtn" onclick="submitAnswer()">Kirim</button></div>
+  <div style="text-align:center;">
+    <button id="submitBtn" onclick="submitAnswer()">Kirim</button>
+  </div>
   <p id="feedback"></p>
 </div>
 
@@ -61,6 +63,7 @@
 <audio id="countdownSound" src="https://files.catbox.moe/jd3v0h.mp3" preload="auto"></audio>
 
 <script>
+// Data soal
 const questions_id_jp = [
   { q: "Aku akan pergi ke toko **sebentar lagi**.", a: ["もうすぐ"] },
   { q: "Dia datang **baru saja**, jadi belum makan.", a: ["さっき"] },
@@ -95,8 +98,8 @@ let timeLeft = 25;
 let userAnswers = [];
 
 function startGame(mode) {
-  document.querySelectorAll(".modeBtn").forEach(btn=>btn.style.display="none"); // sembunyikan tombol mode saja
-  document.getElementById("game").style.display="block";
+  document.querySelectorAll(".modeBtn").forEach(btn => btn.style.display = "none"); // sembunyikan tombol mode saja
+  document.getElementById("game").style.display = "block";
   currentQuestions = mode==='id-jp'?questions_id_jp:questions_jp_id;
   currentIndex=0; score=0; userAnswers=[];
   nextQuestion();

@@ -3,109 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tebak Kata Jepang – Level Menengah 🎌</title>
+<title>Tebak Kata Jepang – Minimal</title>
 <style>
-  body { font-family: 'Poppins', sans-serif; background: #fff0f5; text-align: center; color: #333; margin:0; padding:20px;}
-  h1 { color:#e91e63; margin-bottom:5px; }
+  body { font-family:sans-serif; text-align:center; background:#fff0f5; color:#333; margin:0; padding:20px;}
+  h1 { color:#e91e63; }
   .modeBtn, #submitBtn {
-    padding: 12px 25px;
-    margin: 15px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    background: #ff4081;
-    color: white;
-    font-size: 1.1em;
-    font-weight: bold;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    transition: 0.2s;
+    padding:12px 25px; margin:10px; border:none; border-radius:12px;
+    background:#ff4081; color:white; font-size:1em; font-weight:bold; cursor:pointer;
   }
-  .modeBtn:hover, #submitBtn:hover { background: #e91e63; transform: scale(1.05); }
-  #game,#result{display:none;}
-  #timer{font-size:1.5em; color:#00796b; margin:10px 0;}
-  input{
-    padding:10px; width:80%; font-size:1em; border-radius:5px; border:1px solid #ccc;
-  }
-  #question{font-size:1.2em; margin:15px 0;}
-  #answersList{text-align:left; display:inline-block; margin-top:20px;}
-  table{border-collapse:collapse; margin:auto;}
-  th,td{border:1px solid #ccc; padding:5px;}
+  .modeBtn:hover, #submitBtn:hover { background:#e91e63; }
+  #game, #result { display:none; }
+  input{ padding:10px; width:70%; font-size:1em; }
 </style>
 </head>
 <body>
 
-<h1>🎌 Tebak Kata Jepang – Level Menengah 🎌</h1>
+<h1>Tebak Kata Jepang 🎌</h1>
 <p>Pilih mode permainan:</p>
-<button class="modeBtn" onclick="startGame('id-jp')">🇮🇩 ➜ 🇯🇵</button>
-<button class="modeBtn" onclick="startGame('jp-id')">🇯🇵 ➜ 🇮🇩</button>
+<button class="modeBtn" onclick="startGame('id-jp')">ID ➜ JP</button>
+<button class="modeBtn" onclick="startGame('jp-id')">JP ➜ ID</button>
 
 <div id="game">
   <div id="timer">⏱️ Waktu: 25</div>
   <div id="question"></div>
-  <input type="text" id="answer" placeholder="Tulis jawaban di sini">
-  <div style="text-align:center;">
-    <button id="submitBtn" onclick="submitAnswer()">Kirim</button>
-  </div>
+  <input type="text" id="answer" placeholder="Jawaban kamu...">
+  <div><button id="submitBtn" onclick="submitAnswer()">Kirim</button></div>
   <p id="feedback"></p>
 </div>
 
 <div id="result">
-  <h2>🎉 Hasil Permainan 🎉</h2>
+  <h2>Hasil 🎉</h2>
   <p id="finalScore"></p>
   <div id="answersList"></div>
   <button onclick="location.reload()">Main Lagi</button>
 </div>
 
-<!-- Efek Suara -->
+<!-- Audio -->
 <audio id="correctSound" src="https://files.catbox.moe/1x2m4g.mp3" preload="auto"></audio>
 <audio id="wrongSound" src="https://files.catbox.moe/9y6ycv.mp3" preload="auto"></audio>
 <audio id="timeoutSound" src="https://files.catbox.moe/vb6zri.mp3" preload="auto"></audio>
 <audio id="countdownSound" src="https://files.catbox.moe/jd3v0h.mp3" preload="auto"></audio>
 
 <script>
-// Data soal
 const questions_id_jp = [
-  { q: "Aku akan pergi ke toko **sebentar lagi**.", a: ["もうすぐ"] },
-  { q: "Dia datang **baru saja**, jadi belum makan.", a: ["さっき"] },
-  { q: "Kereta akan tiba **dalam waktu dekat**.", a: ["まもなく"] },
-  { q: "Aku jarang bertemu teman-temanku **akhir-akhir ini**.", a: ["さいきん","最近"] },
-  { q: "Aku ingin belajar bahasa Jepang **sejak dulu**.", a: ["むかし","昔"] },
-  { q: "Aku ingin pergi ke Jepang **suatu hari nanti**.", a: ["いつか"] },
-  { q: "Aku berkunjung ke nenekku **beberapa hari yang lalu**.", a: ["なんにちかまえ","何日か前"] },
-  { q: "Aku belajar bahasa Jepang **mulai sekarang**.", a: ["これから"] },
-  { q: "Aku bertemu teman lama **beberapa waktu lalu**.", a: ["このあいだ","この間"] },
-  { q: "Aku sudah belajar bahasa Jepang **selama ini / hingga sekarang**.", a: ["いままで","今まで"] }
+  { q:"Aku akan pergi **sebentar lagi**.", a:["もうすぐ"] },
+  { q:"Dia datang **baru saja**.", a:["さっき"] }
 ];
-
 const questions_jp_id = [
-  { q: "じゅぎょうの **まえに**, しゅくだいをしてください。", a: ["sebelum","sebelumnya"] },
-  { q: "しょくじの **あとで**, さんぽにいきます。", a: ["sesudah","nanti"] },
-  { q: "えいがをみた **そのあと**, かふぇにいった。", a: ["setelah itu"] },
-  { q: "**さいしょに**, じこしょうかいをしましょう。", a: ["pertama-tama"] },
-  { q: "**さいごに**, かんそうをいってください。", a: ["terakhir","pada akhirnya"] },
-  { q: "**たいてい** あさ7じにおきます。", a: ["biasanya"] },
-  { q: "**けっきょく**, かれはこなかった。", a: ["akhirnya","pada akhirnya"] },
-  { q: "このごろ、いそがしくてねぶそくです。", a: ["belakangan ini"] },
-  { q: "**しょうらい**, かいがいにすみたいです。", a: ["di masa depan"] },
-  { q: "**げんざい**, にほんごをべんきょうしています。", a: ["saat ini","sekarang ini"] }
+  { q:"じゅぎょうの **まえに**", a:["sebelum"] },
+  { q:"しょくじの **あとで**", a:["sesudah"] }
 ];
 
-let currentQuestions = [];
-let currentIndex = 0;
-let score = 0;
-let timer;
-let timeLeft = 25;
-let userAnswers = [];
+let currentQuestions=[], currentIndex=0, score=0, timer, timeLeft=25, userAnswers=[];
 
-function startGame(mode) {
-  document.querySelectorAll(".modeBtn").forEach(btn => btn.style.display = "none"); // sembunyikan tombol mode saja
-  document.getElementById("game").style.display = "block";
+function startGame(mode){
+  document.querySelectorAll(".modeBtn").forEach(btn=>btn.style.display="none");
+  document.getElementById("game").style.display="block";
   currentQuestions = mode==='id-jp'?questions_id_jp:questions_jp_id;
   currentIndex=0; score=0; userAnswers=[];
   nextQuestion();
 }
 
-function nextQuestion() {
+function nextQuestion(){
   if(currentIndex>=currentQuestions.length){ endGame(); return; }
   const q=currentQuestions[currentIndex];
   document.getElementById("question").innerHTML=`Soal ${currentIndex+1}: ${q.q}`;
@@ -114,26 +73,26 @@ function nextQuestion() {
   resetTimer();
 }
 
-function resetTimer() {
+function resetTimer(){
   clearInterval(timer);
   timeLeft=25;
   document.getElementById("timer").textContent=`⏱️ Waktu: ${timeLeft}`;
   timer=setInterval(()=>{
     timeLeft--;
     document.getElementById("timer").textContent=`⏱️ Waktu: ${timeLeft}`;
-    if(timeLeft<=5 && timeLeft>0){ document.getElementById("countdownSound").play().catch(e=>{}); }
+    if(timeLeft<=5 && timeLeft>0){ document.getElementById("countdownSound").play().catch(()=>{}); }
     if(timeLeft<=0){
       clearInterval(timer);
-      document.getElementById("timeoutSound").play().catch(e=>{});
-      const correct = currentQuestions[currentIndex].a[0];
-      userAnswers.push({ q: currentQuestions[currentIndex].q, correct: correct, your:"Tidak dijawab" });
+      document.getElementById("timeoutSound").play().catch(()=>{});
+      const correct=currentQuestions[currentIndex].a[0];
+      userAnswers.push({ q:currentQuestions[currentIndex].q, correct:correct, your:"Tidak dijawab" });
       currentIndex++;
-      setTimeout(nextQuestion,2000);
+      setTimeout(nextQuestion,1500);
     }
   },1000);
 }
 
-function submitAnswer() {
+function submitAnswer(){
   clearInterval(timer);
   const userAns=document.getElementById("answer").value.trim().toLowerCase();
   const correctAnswers=currentQuestions[currentIndex].a.map(a=>a.toLowerCase());
@@ -141,25 +100,24 @@ function submitAnswer() {
   if(correctAnswers.includes(userAns)){
     score+=5;
     feedback="Benar! 🎉";
-    document.getElementById("correctSound").play().catch(e=>{});
-    userAnswers.push({ q: currentQuestions[currentIndex].q, correct: currentQuestions[currentIndex].a[0], your:userAns });
-  } else{
+    document.getElementById("correctSound").play().catch(()=>{});
+  } else {
     feedback="Salah 😢";
-    document.getElementById("wrongSound").play().catch(e=>{});
-    userAnswers.push({ q: currentQuestions[currentIndex].q, correct: currentQuestions[currentIndex].a[0], your:userAns||"Tidak dijawab" });
+    document.getElementById("wrongSound").play().catch(()=>{});
   }
+  userAnswers.push({ q:currentQuestions[currentIndex].q, correct:currentQuestions[currentIndex].a[0], your:userAns||"Tidak dijawab" });
   document.getElementById("feedback").textContent=feedback;
   currentIndex++;
-  setTimeout(nextQuestion,1500);
+  setTimeout(nextQuestion,1000);
 }
 
-function endGame() {
+function endGame(){
   document.getElementById("game").style.display="none";
   document.getElementById("result").style.display="block";
-  document.getElementById("finalScore").textContent=`Skor Akhir: ${score} / 100`;
-  let list="<h3>📋 Daftar Jawaban:</h3><table><tr><th>No</th><th>Soal</th><th>Jawaban Benar</th><th>Jawaban Kamu</th></tr>";
+  document.getElementById("finalScore").textContent=`Skor Akhir: ${score}`;
+  let list="<table border='1' style='margin:auto;'><tr><th>No</th><th>Soal</th><th>Jawaban Benar</th><th>Jawaban Kamu</th></tr>";
   userAnswers.forEach((a,i)=>{
-    const color = a.correct.toLowerCase() === a.your.toLowerCase() ? "green" : "red";
+    const color = a.correct.toLowerCase()===a.your.toLowerCase()?"green":"red";
     list+=`<tr><td>${i+1}</td><td>${a.q}</td><td>${a.correct}</td><td style="color:${color}">${a.your}</td></tr>`;
   });
   list+="</table>";

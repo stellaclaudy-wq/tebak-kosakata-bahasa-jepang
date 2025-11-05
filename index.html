@@ -1,128 +1,200 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tebak Kata Jepang – Minimal</title>
-<style>
-  body { font-family:sans-serif; text-align:center; background:#fff0f5; color:#333; margin:0; padding:20px;}
-  h1 { color:#e91e63; }
-  .modeBtn, #submitBtn {
-    padding:12px 25px; margin:10px; border:none; border-radius:12px;
-    background:#ff4081; color:white; font-size:1em; font-weight:bold; cursor:pointer;
-  }
-  .modeBtn:hover, #submitBtn:hover { background:#e91e63; }
-  #game, #result { display:none; }
-  input{ padding:10px; width:70%; font-size:1em; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>時間に関するクイズ - 拡張版</title>
+    <style>
+        body {
+            font-family: 'Hiragino Kaku Gothic Pro', 'Meiryo', sans-serif;
+            background: linear-gradient(to bottom, #87CEEB, #FFFACD);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #FF6347;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #4682B4;
+            font-size: 1.8em;
+            margin-top: 30px;
+        }
+        .intro {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .question {
+            background: #FFE4B5;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .option {
+            background: #98FB98;
+            border: 1px solid #32CD32;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .option:hover {
+            background: #00FF00;
+        }
+        .answer {
+            display: none;
+            background: #FFB6C1;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .emoji {
+            font-size: 1.5em;
+        }
+        ruby {
+            font-size: 1.1em;
+        }
+    </style>
+    <script>
+        function showAnswer(id) {
+            const answer = document.getElementById(id);
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
 </head>
 <body>
+    <h1>⏰ 時間に関するクイズ - 拡張版 ⏰</h1>
+    <div class="intro">
+        <h2>クイズの概要</h2>
+        <p>このクイズは<ruby>時間<rt>じかん</rt></ruby>に関する<ruby>知識<rt>ちしき</rt></ruby>を<ruby>楽<rt>たの</rt></ruby>しく<ruby>学<rt>まな</rt></ruby>ぶためのものです。<ruby>全部<rt>ぜんぶ</rt></ruby>で4つの<ruby>部分<rt>ぶぶん</rt></ruby>に<ruby>分<rt>わ</rt></ruby>けられ、各<ruby>部分<rt>ぶぶん</rt></ruby>の<ruby>前<rt>まえ</rt></ruby>に<ruby>材料<rt>ざいりょう</rt></ruby>（<ruby>要点<rt>ようてん</rt></ruby>）を<ruby>説明<rt>せつめい</rt></ruby>します。<ruby>問題<rt>もんだい</rt></ruby>をクリックして<ruby>答<rt>こた</rt></ruby>えを<ruby>確認<rt>かくにん</rt></ruby>してください。 <span class="emoji">📚</span></p>
+    </div>
 
-<h1>Tebak Kata Jepang 🎌</h1>
-<p>Pilih mode permainan:</p>
-<button class="modeBtn" onclick="startGame('id-jp')">ID ➜ JP</button>
-<button class="modeBtn" onclick="startGame('jp-id')">JP ➜ ID</button>
+    <h2>部分1: <ruby>時間<rt>じかん</rt></ruby>の<ruby>基礎<rt>きそ</rt></ruby></h2>
+    <div class="intro">
+        <p><strong><ruby>要点<rt>ようてん</rt></ruby>:</strong> <ruby>時<rt>じ</rt></ruby>、<ruby>分<rt>ふん</rt></ruby>、<ruby>秒<rt>びょう</rt></ruby>の<ruby>単位<rt>たんい</rt></ruby>と<ruby>基本<rt>きほん</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>。<ruby>例<rt>れい</rt></ruby>: 1<ruby>時間<rt>じかん</rt></ruby> = 60<ruby>分<rt>ふん</rt></ruby>。 <span class="emoji">🕒</span></p>
+    </div>
+    <div class="quiz-container">
+        <div class="question">
+            <p>1. いま<ruby>何時<rt>なんじ</rt></ruby>ですか？ <span class="emoji">🕐</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans1')">A. 3<ruby>時<rt>じ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans1')">B. 5<ruby>時<rt>じ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans1')">C. 7<ruby>時<rt>じ</rt></ruby></div>
+            </div>
+            <div id="ans1" class="answer">正解は状況によるが、例: 午後3<ruby>時<rt>じ</rt></ruby>です。 <span class="emoji">✅</span></div>
+        </div>
+        <div class="question">
+            <p>2. 1<ruby>時間<rt>じかん</rt></ruby>は<ruby>何分<rt>なんぷん</rt></ruby>ですか？ <span class="emoji">⏳</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans2')">A. 30<ruby>分<rt>ふん</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans2')">B. 60<ruby>分<rt>ふん</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans2')">C. 90<ruby>分<rt>ふん</rt></ruby></div>
+            </div>
+            <div id="ans2" class="answer">正解: B. 60<ruby>分<rt>ふん</rt></ruby>です。 <span class="emoji">🎉</span></div>
+        </div>
+        <div class="question">
+            <p>3. 1<ruby>分<rt>ふん</rt></ruby>は<ruby>何秒<rt>なんびょう</rt></ruby>ですか？ <span class="emoji">⏱️</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans3')">A. 30<ruby>秒<rt>びょう</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans3')">B. 60<ruby>秒<rt>びょう</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans3')">C. 100<ruby>秒<rt>びょう</rt></ruby></div>
+            </div>
+            <div id="ans3" class="answer">正解: B. 60<ruby>秒<rt>びょう</rt></ruby>です。 <span class="emoji">⏲️</span></div>
+        </div>
+        <div class="question">
+            <p>4. <ruby>午前<rt>ごぜん</rt></ruby>10<ruby>時<rt>じ</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>ですか？ <span class="emoji">🌅</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans4')">A. 午後10<ruby>時<rt>じ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans4')">B. 午前10<ruby>時<rt>じ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans4')">C. 午後12<ruby>時<rt>じ</rt></ruby></div>
+            </div>
+            <div id="ans4" class="answer">正解: B. 午前10<ruby>時<rt>じ</rt></ruby>です。 <span class="emoji">🌞</span></div>
+        </div>
+    </div>
 
-<div id="game">
-  <div id="timer">⏱️ Waktu: 25</div>
-  <div id="question"></div>
-  <input type="text" id="answer" placeholder="Jawaban kamu...">
-  <div><button id="submitBtn" onclick="submitAnswer()">Kirim</button></div>
-  <p id="feedback"></p>
-</div>
+    <h2>部分2: <ruby>曜日<rt>ようび</rt></ruby>と<ruby>日付<rt>ひづけ</rt></ruby></h2>
+    <div class="intro">
+        <p><strong><ruby>要点<rt>ようてん</rt></ruby>:</strong> <ruby>曜日<rt>ようび</rt></ruby>（<ruby>月曜日<rt>げつようび</rt></ruby>から<ruby>日曜日<rt>にちようび</rt></ruby>まで）と<ruby>日付<rt>ひづけ</rt></ruby>の<ruby>表現<rt>ひょうげん</rt></ruby>。<ruby>例<rt>れい</rt></ruby>: <ruby>今日<rt>きょう</rt></ruby>は<ruby>金曜日<rt>きんようび</rt></ruby>。 <span class="emoji">📅</span></p>
+    </div>
+    <div class="quiz-container">
+        <div class="question">
+            <p>1. <ruby>今日<rt>きょう</rt></ruby>は<ruby>何曜日<rt>なんようび</rt></ruby>ですか？ <span class="emoji">📆</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans5')">A. <ruby>月曜日<rt>げつようび</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans5')">B. <ruby>水曜日<rt>すいようび</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans5')">C. <ruby>金曜日<rt>きんようび</rt></ruby></div>
+            </div>
+            <div id="ans5" class="answer">正解は<ruby>今日<rt>きょう</rt></ruby>によるが、例: <ruby>金曜日<rt>きんようび</rt></ruby>です。 <span class="emoji">📅</span></div>
+        </div>
+        <div class="question">
+            <p>2. <ruby>明日<rt>あした</rt></ruby>は<ruby>何曜日<rt>なんようび</rt></ruby>ですか？ <span class="emoji">🌤️</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans6')">A. <ruby>昨日<rt>きのう</rt></ruby>の<ruby>曜日<rt>ようび</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans6')">B. <ruby>今日<rt>きょう</rt></ruby>の<ruby>次<rt>つぎ</rt></ruby>の<ruby>曜日<rt>ようび</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans6')">C. <ruby>来週<rt>らいしゅう</rt></ruby>の<ruby>曜日<rt>ようび</rt></ruby></div>
+            </div>
+            <div id="ans6" class="answer">正解: B. <ruby>今日<rt>きょう</rt></ruby>の<ruby>次<rt>つぎ</rt></ruby>の<ruby>曜日<rt>ようび</rt></ruby>です。 <span class="emoji">📅</span></div>
+        </div>
+        <div class="question">
+            <p>3. 1<ruby>日<rt>にち</rt></ruby>は<ruby>何時間<rt>なんじかん</rt></ruby>ですか？ <span class="emoji">🌞</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans7')">A. 12<ruby>時間<rt>じかん</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans7')">B. 24<ruby>時間<rt>じかん</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans7')">C. 48<ruby>時間<rt>じかん</rt></ruby></div>
+            </div>
+            <div id="ans7" class="answer">正解: B. 24<ruby>時間<rt>じかん</rt></ruby>です。 <span class="emoji">🌙</span></div>
+        </div>
+        <div class="question">
+            <p>4. <ruby>日曜日<rt>にちようび</rt></ruby>の<ruby>次<rt>つぎ</rt></ruby>は<ruby>何曜日<rt>なんようび</rt></ruby>ですか？ <span class="emoji">🔄</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans8')">A. <ruby>土曜日<rt>どようび</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans8')">B. <ruby>月曜日<rt>げつようび</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans8')">C. <ruby>火曜日<rt>かようび</rt></ruby></div>
+            </div>
+            <div id="ans8" class="answer">正解: B. <ruby>月曜日<rt>げつようび</rt></ruby>です。 <span class="emoji">📅</span></div>
+        </div>
+    </div>
 
-<div id="result">
-  <h2>Hasil 🎉</h2>
-  <p id="finalScore"></p>
-  <div id="answersList"></div>
-  <button onclick="location.reload()">Main Lagi</button>
-</div>
-
-<!-- Audio -->
-<audio id="correctSound" src="https://files.catbox.moe/1x2m4g.mp3" preload="auto"></audio>
-<audio id="wrongSound" src="https://files.catbox.moe/9y6ycv.mp3" preload="auto"></audio>
-<audio id="timeoutSound" src="https://files.catbox.moe/vb6zri.mp3" preload="auto"></audio>
-<audio id="countdownSound" src="https://files.catbox.moe/jd3v0h.mp3" preload="auto"></audio>
-
-<script>
-const questions_id_jp = [
-  { q:"Aku akan pergi **sebentar lagi**.", a:["もうすぐ"] },
-  { q:"Dia datang **baru saja**.", a:["さっき"] }
-];
-const questions_jp_id = [
-  { q:"じゅぎょうの **まえに**", a:["sebelum"] },
-  { q:"しょくじの **あとで**", a:["sesudah"] }
-];
-
-let currentQuestions=[], currentIndex=0, score=0, timer, timeLeft=25, userAnswers=[];
-
-function startGame(mode){
-  document.querySelectorAll(".modeBtn").forEach(btn=>btn.style.display="none");
-  document.getElementById("game").style.display="block";
-  currentQuestions = mode==='id-jp'?questions_id_jp:questions_jp_id;
-  currentIndex=0; score=0; userAnswers=[];
-  nextQuestion();
-}
-
-function nextQuestion(){
-  if(currentIndex>=currentQuestions.length){ endGame(); return; }
-  const q=currentQuestions[currentIndex];
-  document.getElementById("question").innerHTML=`Soal ${currentIndex+1}: ${q.q}`;
-  document.getElementById("answer").value="";
-  document.getElementById("feedback").textContent="";
-  resetTimer();
-}
-
-function resetTimer(){
-  clearInterval(timer);
-  timeLeft=25;
-  document.getElementById("timer").textContent=`⏱️ Waktu: ${timeLeft}`;
-  timer=setInterval(()=>{
-    timeLeft--;
-    document.getElementById("timer").textContent=`⏱️ Waktu: ${timeLeft}`;
-    if(timeLeft<=5 && timeLeft>0){ document.getElementById("countdownSound").play().catch(()=>{}); }
-    if(timeLeft<=0){
-      clearInterval(timer);
-      document.getElementById("timeoutSound").play().catch(()=>{});
-      const correct=currentQuestions[currentIndex].a[0];
-      userAnswers.push({ q:currentQuestions[currentIndex].q, correct:correct, your:"Tidak dijawab" });
-      currentIndex++;
-      setTimeout(nextQuestion,1500);
-    }
-  },1000);
-}
-
-function submitAnswer(){
-  clearInterval(timer);
-  const userAns=document.getElementById("answer").value.trim().toLowerCase();
-  const correctAnswers=currentQuestions[currentIndex].a.map(a=>a.toLowerCase());
-  let feedback="";
-  if(correctAnswers.includes(userAns)){
-    score+=5;
-    feedback="Benar! 🎉";
-    document.getElementById("correctSound").play().catch(()=>{});
-  } else {
-    feedback="Salah 😢";
-    document.getElementById("wrongSound").play().catch(()=>{});
-  }
-  userAnswers.push({ q:currentQuestions[currentIndex].q, correct:currentQuestions[currentIndex].a[0], your:userAns||"Tidak dijawab" });
-  document.getElementById("feedback").textContent=feedback;
-  currentIndex++;
-  setTimeout(nextQuestion,1000);
-}
-
-function endGame(){
-  document.getElementById("game").style.display="none";
-  document.getElementById("result").style.display="block";
-  document.getElementById("finalScore").textContent=`Skor Akhir: ${score}`;
-  let list="<table border='1' style='margin:auto;'><tr><th>No</th><th>Soal</th><th>Jawaban Benar</th><th>Jawaban Kamu</th></tr>";
-  userAnswers.forEach((a,i)=>{
-    const color = a.correct.toLowerCase()===a.your.toLowerCase()?"green":"red";
-    list+=`<tr><td>${i+1}</td><td>${a.q}</td><td>${a.correct}</td><td style="color:${color}">${a.your}</td></tr>`;
-  });
-  list+="</table>";
-  document.getElementById("answersList").innerHTML=list;
-}
-</script>
-</body>
-</html>
+    <h2>部分3: <ruby>月<rt>つき</rt></ruby>と<ruby>季節<rt>きせつ</rt></ruby></h2>
+    <div class="intro">
+        <p><strong><ruby>要点<rt>ようてん</rt></ruby>:</strong> <ruby>月<rt>つき</rt></ruby>（1<ruby>月<rt>がつ</rt></ruby>から12<ruby>月<rt>がつ</rt></ruby>まで）と<ruby>季節<rt>きせつ</rt></ruby>（<ruby>春<rt>はる</rt></ruby>、<ruby>夏<rt>なつ</rt></ruby>、<ruby>秋<rt>あき</rt></ruby>、<ruby>冬<rt>ふゆ</rt></ruby>）。<ruby>例<rt>れい</rt></ruby>: 3<ruby>月<rt>がつ</rt></ruby>は<ruby>春<rt>はる</rt></ruby>。 <span class="emoji">🌸</span></p>
+    </div>
+    <div class="quiz-container">
+        <div class="question">
+            <p>1. <ruby>春<rt>はる</rt></ruby>は<ruby>何月<rt>なんがつ</rt></ruby>ですか？ <span class="emoji">🌸</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans9')">A. 3<ruby>月<rt>がつ</rt></ruby>から5<ruby>月<rt>がつ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans9')">B. 6<ruby>月<rt>がつ</rt></ruby>から8<ruby>月<rt>がつ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans9')">C. 9<ruby>月<rt>がつ</rt></ruby>から11<ruby>月<rt>がつ</rt></ruby></div>
+            </div>
+            <div id="ans9" class="answer">正解: A. 3<ruby>月<rt>がつ</rt></ruby>から5<ruby>月<rt>がつ</rt></ruby>です。 <span class="emoji">🌷</span></div>
+        </div>
+        <div class="question">
+            <p>2. <ruby>夏<rt>なつ</rt></ruby>は<ruby>何月<rt>なんがつ</rt></ruby>ですか？ <span class="emoji">🏖️</span></p>
+            <div class="options">
+                <div class="option" onclick="showAnswer('ans10')">A. 12<ruby>月<rt>がつ</rt></ruby>から2<ruby>月<rt>がつ</rt></ruby></div>
+                <div class="option" onclick="showAnswer('ans10')">B. 6<ruby>月<rt>がつ</rt></ruby>から8<ruby>月<
